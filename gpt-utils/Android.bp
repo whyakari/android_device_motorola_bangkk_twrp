@@ -16,7 +16,7 @@
 
 
 cc_library {
-    name: "libgptutils.motorola_holi",
+    name: "libgptutils.corfur",
     vendor: true,
     recovery_available: true,
     shared_libs: [
@@ -27,9 +27,11 @@ cc_library {
     cflags: [
         "-Wall",
         "-Werror",
+        "-D_BSG_FRAMEWORK_KERNEL_HEADERS",
     ],
     srcs: [
         "gpt-utils.cpp",
+        "recovery-ufs-bsg.cpp",
     ],
     owner: "qti",
     export_include_dirs: ["."],

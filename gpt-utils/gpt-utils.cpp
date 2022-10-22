@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013,2016, The Linux Foundation. All rights reserved.
+ * Copyright (c) 2013,2016,2020 The Linux Foundation. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -127,6 +127,7 @@ struct update_data {
      uint32_t num_valid_entries;
 };
 
+int32_t set_boot_lun(char *sg_dev,uint8_t boot_lun_id);
 /******************************************************************************
  * FUNCTIONS
  ******************************************************************************/
@@ -730,6 +731,7 @@ int gpt_utils_set_xbl_boot_partition(enum boot_chain chain)
                                 __func__);
                 goto error;
         }
+        /* set boot lun using /dev/sg or /dev/ufs-bsg* */
         if (set_boot_lun(sg_dev_node, boot_lun_id)) {
                 fprintf(stderr, "%s: Failed to set xblbak as boot partition\n",
                                 __func__);
@@ -1526,7 +1528,7 @@ int gpt_disk_commit(struct gpt_disk *disk)
                 ALOGE("%s: Invalid args", __func__);
                 goto error;
         }
-        fd = open(disk->devpath, O_RDWR);
+        fd = open(disk->devpath, O_RDWR | O_DSYNC);
         if (fd < 0) {
                 ALOGE("%s: Failed to open %s: %s",
                                 __func__,
@@ -1558,6 +1560,7 @@ int gpt_disk_commit(struct gpt_disk *disk)
                                 __func__);
                 goto error;
         }
+        fsync(fd);
         close(fd);
         return 0;
 error:
