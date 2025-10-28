@@ -1,4 +1,4 @@
-# Android device tree for motorola Holi for arm64 (bangkk)
+# Android device tree for motorola Motorola Moto G84 5G (bangkk)
 
 ```
 #
