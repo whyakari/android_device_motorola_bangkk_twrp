@@ -20,6 +20,9 @@ TARGET_ENFORCE_AB_OTA_PARTITION_LIST := true
 # Enable virtual A/B OTA
 $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota.mk) 
 
+# define hardware platform
+PRODUCT_PLATFORM := holi
+
 AB_OTA_PARTITIONS += \
     boot \
     dtbo \
@@ -42,20 +45,19 @@ AB_OTA_POSTINSTALL_CONFIG += \
     FILESYSTEM_TYPE_vendor=ext4 \
     POSTINSTALL_OPTIONAL_vendor=true
 
+# Update engine
 PRODUCT_PACKAGES += \
+    otapreopt_script \
     checkpoint_gc \
-    otapreopt_script
+    cppreopts.sh \
+    update_engine \
+    update_verifier \
+    update_engine_sideload
 
 # Boot control
 PRODUCT_PACKAGES += \
     android.hardware.boot@1.1-impl-qti.recovery \
-    bootctrl.holi.recovery
-
-# Update engine
-PRODUCT_PACKAGES += \
-    update_engine \
-    update_engine_sideload \
-    update_verifier
+	bootctrl.$(PRODUCT_PLATFORM).recovery
 
 # Display
 TARGET_RECOVERY_DEVICE_MODULES += \
