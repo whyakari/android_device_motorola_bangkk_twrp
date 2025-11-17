@@ -1,3 +1,8 @@
+# Storage
+external_storage.projid.enabled=1
+external_storage.casefold.enabled=1
+external_storage.sdcardfs.enabled=0
+
 # Crypto
 fbe.metadata.wrappedkey=true
 ro.crypto.allow_encrypt_override=true
